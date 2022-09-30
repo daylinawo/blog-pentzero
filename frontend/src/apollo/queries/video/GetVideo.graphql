@@ -1,0 +1,21 @@
+query GetVideo($id: ID!) {
+  video(id: $id) {
+    data {
+      id
+      attributes {
+        url
+        description
+        meta {
+          title
+          thumbnail {
+            data {
+              attributes {
+                formats
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

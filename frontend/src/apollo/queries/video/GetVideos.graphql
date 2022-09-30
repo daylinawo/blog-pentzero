@@ -1,0 +1,34 @@
+query GetVideos($limit: Int!, $start: Int!, $orderBy: [String!]!) {
+  videos(pagination: { limit: $limit, start: $start }, sort: $orderBy) {
+    meta {
+      pagination {
+        total
+        pageCount
+      }
+    }
+    data {
+      id
+      attributes {
+        publishedAt
+        __typename
+        category {
+          data {
+            attributes {
+              name
+            }
+          }
+        }
+        meta {
+          title
+          thumbnail {
+            data {
+              attributes {
+                formats
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
