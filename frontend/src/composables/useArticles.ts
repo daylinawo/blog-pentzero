@@ -16,16 +16,12 @@ export const useLazyArticles = (queryVars: GetArticlesQueryVariables) => {
 };
 
 const useArticles = (params: GetArticlesQueryVariables) => {
-  const {
-    result: articles,
-    error,
-    loading,
-  } = useQuery<GetArticlesQuery, GetArticlesQueryVariables>(
-    GetArticlesDocument,
-    params
-  );
+  const { result, error, loading } = useQuery<
+    GetArticlesQuery,
+    GetArticlesQueryVariables
+  >(GetArticlesDocument, params);
 
-  return { articles, error, loading };
+  return { result, error, loading };
 };
 
 export default useArticles;

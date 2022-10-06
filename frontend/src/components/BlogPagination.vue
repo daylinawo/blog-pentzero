@@ -5,7 +5,7 @@
   >
     <Link
       v-for="p in pageTotal"
-      :href="`/videos/${p}`"
+      :href="`/${postType}/${p}`"
       >{{ p }}</Link
     >
     >
@@ -14,6 +14,11 @@
 
 <script setup lang="ts">
 import Link from '@/renderer/Link.vue';
+import { usePageContext } from '@/renderer/usePageContext';
+
+const pageContext = usePageContext();
+
+const postType = pageContext.urlPathname.slice(1).split('/')[0];
 
 const props = defineProps({
   pageTotal: {

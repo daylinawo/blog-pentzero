@@ -1,6 +1,6 @@
 <template>
   <div class="cards__wrap">
-    <!-- <BlogNavigation /> -->
+    <BlogNavigation />
     <div class="cards__header">
       <h3 class="cards__title">{{ title }}</h3>
       <!--<div class="cards__page-meta">
