@@ -1,29 +1,26 @@
 <template>
   <div class="navbar">
     <nav>
-      <router-link
-        :to="{ name: 'Home' }"
+      <a
+        href="/"
         class="logo-link"
         ><img src="../assets/images/logo.png"
-      /></router-link>
+      /></a>
       <div class="links">
-        <router-link :to="{ name: 'Home' }">Home</router-link>
-        <router-link :to="{ name: 'Submissions' }">Submit Content</router-link>
-        <router-link :to="{ name: 'Contact' }">Contact</router-link>
+        <Link href="/">Home</Link>
+        <Link href="/submit-content">Submit Content</Link>
+        <Link href="/contact">Contact</Link>
       </div>
-      <div class="search">
-        <fas
-          class="search-icon"
-          :icon="['fas', 'search']"
-        />
-      </div>
+      <div class="search"></div>
     </nav>
   </div>
 </template>
 
-<script setup></script>
+<script lang="ts" setup>
+import Link from '../renderer/Link.vue';
+</script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .navbar {
   background: #000;
   padding: 0.625em;

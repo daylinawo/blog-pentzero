@@ -23,7 +23,6 @@
 import { computed } from '@vue/reactivity';
 import { useRoute } from 'vue-router';
 import { ref, watchEffect } from 'vue';
-const route = useRoute();
 
 const page = computed(() => {
   return route.path.substring(1).split('/')[0];

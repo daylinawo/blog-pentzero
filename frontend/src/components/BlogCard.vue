@@ -1,28 +1,29 @@
 <template>
   <div class="card">
     <div class="card__photo card__photo--16-9 card__photo--rounded-edges">
-      <router-link :to="{ name: routeName, params: { id: post.id } }">
+      <Link :href="`/${componentName}/${post.id}`">
         <img :src="`${api_url}${post.photo_url}`" />
         <div
           class="card__icon"
-          v-if="routeName == 'Video'"
+          v-if="props.post.type == 'Video'"
         >
           <VideoIcon />
         </div>
-        <div
-          class="card__icon"
-          v-if="routeName == 'Article'"
-        >
-          <ArticleIcon />
-        </div>
-      </router-link>
+      </Link>
+      <div
+        class="card__icon"
+        v-if="props.post.type == 'Article'"
+      >
+        <ArticleIcon />
+      </div>
     </div>
-    <router-link
-      :to="{ name: routeName, params: { id: post.id } }"
+
+    <Link
       class="card__title"
+      :href="`/${componentName}/${post.id}`"
     >
       {{ post.title }}
-    </router-link>
+    </Link>
 
     <div class="card__meta-wrapper">
       <div class="card__meta">
@@ -32,8 +33,8 @@
         }}</span>
       </div>
       <div class="card__meta card__meta--row">
-        <span>{{ rand() }}k <ViewsIcon class="card__meta-icon" /></span>
-        <span> {{ rand() }} <CommentsIcon class="card__meta-icon" /></span>
+        <span>100k <ViewsIcon class="card__meta-icon" /></span>
+        <span> 80 <CommentsIcon class="card__meta-icon" /></span>
       </div>
     </div>
   </div>
@@ -48,6 +49,7 @@ import VideoIcon from '@/assets/images/icon-video.svg?component';
 import ArticleIcon from '@/assets/images/icon-article.svg?component';
 import CommentsIcon from '@/assets/images/icon-comments.svg?component';
 import ViewsIcon from '@/assets/images/icon-views.svg?component';
+import Link from '@/renderer/Link.vue';
 
 const props = defineProps({
   post: {
@@ -58,15 +60,12 @@ const props = defineProps({
 
 const api_url = import.meta.env.VITE_STRAPI_API_URL;
 
-const routeName = computed(() => {
-  const type: string = props.post.type;
-  if (type != 'Video' && type != 'Article' && type != 'Gallery') return '';
-  else return type;
+const componentName = computed(() => {
+  if (props.post.type == 'Video') return 'video';
+  else if (props.post.type == 'Article') return 'article';
+  else if (props.post.type == 'Gallery') return 'gallery';
+  else return '';
 });
-
-function rand() {
-  return Math.ceil(Math.random() * 200);
-}
 </script>
 
 <style lang="scss">

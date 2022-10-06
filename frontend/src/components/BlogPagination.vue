@@ -3,29 +3,24 @@
     v-if="pageTotal"
     class="pagination"
   >
-    <router-link
+    <Link
       v-for="p in pageTotal"
-      :to="paginate(p)"
-      >{{ p }}</router-link
+      :href="`/videos/${p}`"
+      >{{ p }}</Link
+    >
     >
   </div>
 </template>
+
 <script setup lang="ts">
+import Link from '@/renderer/Link.vue';
+
 const props = defineProps({
   pageTotal: {
     type: Number,
     required: true,
   },
 });
-
-// generate all page numbers
-const paginate = (pageTo: number) => {
-  return {
-    params: {
-      page: pageTo,
-    },
-  };
-};
 </script>
 
 <style lang="scss">
@@ -46,7 +41,7 @@ const paginate = (pageTo: number) => {
     color: var(--tertiary);
   }
 
-  .router-link-active {
+  .active {
     color: var(--primary);
     border-top: 1px solid var(--primary);
   }
