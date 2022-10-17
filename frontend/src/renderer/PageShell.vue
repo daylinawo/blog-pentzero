@@ -3,6 +3,7 @@
   <main class="content">
     <div class="main-container"><slot /></div>
   </main>
+  <TheFooter />
 </template>
 
 <script setup lang="ts">
@@ -18,7 +19,6 @@ import TheFooter from '@/components/TheFooter.vue';
 }
 
 .main-container {
-  width: min(100% - 40px, 1200px);
   margin-inline: auto;
   margin-bottom: 6em;
 }

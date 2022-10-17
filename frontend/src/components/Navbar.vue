@@ -29,7 +29,7 @@ import Link from '../renderer/Link.vue';
   nav {
     display: flex;
     align-items: center;
-    max-width: 1200px;
+    max-width: var(--max-width);
     margin: 0 auto;
   }
 
@@ -40,7 +40,7 @@ import Link from '../renderer/Link.vue';
   nav .links a {
     margin-left: 1em;
     font-size: 1rem;
-    color: #fff;
+    color: var(--navLinkColor);
     font-weight: bold;
   }
 

@@ -108,13 +108,13 @@ const componentName = computed(() => {
   }
 
   &__date {
-    color: var(--secondaryDark);
+    color: var(--neutralLight);
     margin-bottom: 0.5em;
   }
 
   &__title {
     font-size: 1.5rem;
-    color: var(--tertiary);
+    color: var(--neutralDarkest);
     text-decoration: underline 0.08em rgba(0, 0, 0, 0);
     letter-spacing: -0.01em;
     transition: text-decoration-color 700ms;
@@ -171,7 +171,7 @@ const componentName = computed(() => {
     height: 1em;
     vertical-align: middle;
     margin-bottom: 0.1em;
-    fill: var(--tertiary);
+    fill: var(--neutralDarkest);
   }
 }
 </style>

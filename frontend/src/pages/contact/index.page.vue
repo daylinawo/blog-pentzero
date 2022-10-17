@@ -17,6 +17,12 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup lang="ts"></script>
+<script lang="ts">
+export const documentProps = {
+  title: 'Contact | Pentzero',
+  description: 'Luxury lifestyle blog',
+};
+</script>
 
 <style></style>

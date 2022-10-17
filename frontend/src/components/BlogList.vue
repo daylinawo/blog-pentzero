@@ -53,7 +53,7 @@ const props = defineProps({
 <style lang="scss">
 .l-grid {
   display: grid;
-  gap: 2.75em; //1.75
+  gap: 2.75rem;
   grid-template-columns: 1fr;
 
   &--three-md {

@@ -3,17 +3,7 @@ import {
   GetArticlesQuery,
   GetArticlesQueryVariables,
 } from '@/types.d';
-import { useLazyQuery, useQuery } from '@vue/apollo-composable';
-
-export const useLazyArticles = (queryVars: GetArticlesQueryVariables) => {
-  const {
-    result: articles,
-    load,
-    loading,
-    error,
-  } = useLazyQuery(GetArticlesDocument, queryVars);
-  return { articles, error, loading, load };
-};
+import { useQuery } from '@vue/apollo-composable';
 
 const useArticles = (params: GetArticlesQueryVariables) => {
   const { result, error, loading } = useQuery<

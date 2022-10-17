@@ -31,7 +31,6 @@ import Link from '@/renderer/Link.vue';
 
       a {
         font-size: 0.9rem;
-        color: var(--tertiary);
         text-transform: uppercase;
         transition: color 0.3s;
 
@@ -40,7 +39,7 @@ import Link from '@/renderer/Link.vue';
         }
 
         &.active {
-          border-top: 1px solid var(--tertiary);
+          border-top: 1px solid var(--neutralDarkest);
           padding-top: 0.1875em;
         }
       }

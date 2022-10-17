@@ -5,7 +5,7 @@ import { renderToString } from '@vue/server-renderer';
 import { escapeInject, dangerouslySkipEscape } from 'vite-plugin-ssr';
 import { PageContextServer } from './types';
 import { createApp } from './app';
-
+import { getPageTitle } from './getPageTitle.js';
 export { render };
 export { onBeforeRender };
 
@@ -14,6 +14,7 @@ export const passToClient = [
   'urlPathname',
   'apolloInitialState',
   'routeParams',
+  'documentProps',
 ];
 
 async function render(pageContext: PageContextServer) {
@@ -21,7 +22,6 @@ async function render(pageContext: PageContextServer) {
   const { redirectTo } = pageContext;
 
   if (redirectTo) {
-    console.log(redirectTo);
     return {
       pageContext: {
         redirectTo,
@@ -29,7 +29,7 @@ async function render(pageContext: PageContextServer) {
     };
   }
 
-  const title = (documentProps && documentProps.title) || 'Pentzero';
+  const title = getPageTitle(pageContext);
   const desc =
     (documentProps && documentProps.description) || 'Lifestyle & Entertainment';
 
