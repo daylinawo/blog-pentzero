@@ -12,17 +12,28 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "meta": {
-      "displayName": "Post Generic",
-      "type": "component",
-      "repeatable": false,
-      "component": "post.post-generic"
-    },
     "category": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::category.category",
       "inversedBy": "articles"
+    },
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "slug": {
+      "type": "string",
+      "required": false,
+      "unique": true
+    },
+    "thumbnail": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
     }
   }
 }
