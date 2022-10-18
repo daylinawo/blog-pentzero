@@ -1,0 +1,22 @@
+query GetVideoBySlug($slug: String!) {
+  findSlug(modelName: "video", slug: $slug) {
+    ... on VideoEntityResponse {
+      data {
+        id
+        attributes {
+          publishedAt
+          title
+          url
+          description
+          category {
+            data {
+              attributes {
+                name
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -5,7 +5,7 @@
         <div class="video-player">
           <iframe
             allowFullScreen="allowFullScreen"
-            src="https://www.youtube.com/embed/je9RfCTnRnA?ecver=1&amp;autoplay=1&amp;iv_load_policy=1&amp;rel=0&amp;showinfo=0&amp;yt:stretch=16:9&amp;autohide=1&amp;color=red&amp;width=760&amp;width=760"
+            :src="`${videoURL}/?ecver=1&amp;autoplay=1&amp;iv_load_policy=1&amp;rel=0&amp;showinfo=0&amp;yt:stretch=16:9&amp;autohide=1&amp;color=red&amp;width=760&amp;width=760`"
             width="760"
             height="415"
             allowtransparency="true"
@@ -21,10 +21,11 @@
   <Container>
     <div class="video-meta">
       <h3 class="video-meta__title">
-        {{ result?.video?.data?.attributes?.meta?.title }}
+        {{ result?.findSlug?.data?.attributes.title }}
       </h3>
       <div class="video-meta__description">
-        {{ result?.video?.data?.attributes?.description }}
+        {{ result?.findSlug?.data?.attributes.description }}
+        {{ videoURL }}
       </div>
     </div>
   </Container>
@@ -32,30 +33,30 @@
 
 <script setup lang="ts">
 import { usePageContext } from '@/renderer/usePageContext';
-import { useQuery } from '@vue/apollo-composable';
-import {
-  GetVideoDocument,
-  GetVideoQuery,
-  GetVideoQueryVariables,
-} from '@/types.d';
 
 import Container from '@/components/Container.vue';
 import RelatedSidebar from '@/components/RelatedSidebar.vue';
-import { computed } from 'vue';
-
+import useVideoBySlug from './useVideoBySlug';
 import useVideos from '../useVideos';
+
 import { filterPostsData } from '@/composables/filterPostsData';
+import { computed } from 'vue';
 
 const pageContext = usePageContext();
 
-const { error, loading, result } = useQuery<
-  GetVideoQuery,
-  GetVideoQueryVariables
->(GetVideoDocument, {
-  id: pageContext.routeParams!.id,
+const { result, loading, error } = useVideoBySlug({
+  slug: pageContext.routeParams!.slug,
 });
 
-// variables for GRAPHQL query
+const videoURL = computed(() => {
+  return result.value!.findSlug!.data.attributes.url.replace(
+    'watch?v=',
+    'embed/'
+  );
+});
+// FETCH SIDEBAR CONTENT
+
+// vars for useVideos query
 const queryVars = computed(() => {
   return {
     limit: 8,
@@ -74,8 +75,6 @@ const {
 const sidebarPosts = computed(() => {
   return filterPostsData(sidebarResults?.value?.videos?.data.slice());
 });
-
-// get all video posts data from database
 </script>
 
 <style lang="scss">

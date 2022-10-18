@@ -11,20 +11,19 @@ query GetVideos($limit: Int!, $start: Int!, $orderBy: [String!]!) {
       attributes {
         publishedAt
         __typename
+        title
+        slug
+        thumbnail {
+          data {
+            attributes {
+              formats
+            }
+          }
+        }
         category {
           data {
             attributes {
               name
-            }
-          }
-        }
-        meta {
-          title
-          thumbnail {
-            data {
-              attributes {
-                formats
-              }
             }
           }
         }

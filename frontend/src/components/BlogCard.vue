@@ -1,7 +1,9 @@
+<!-- Blog card component -->
+
 <template>
   <div class="card">
     <div class="card__photo card__photo--16-9 card__photo--rounded-edges">
-      <Link :href="`/${componentName}/${post.id}`">
+      <Link :href="`/${componentName}/${post.slug}`">
         <img :src="`${api_url}${post.photo_url}`" />
         <div
           class="card__icon"
@@ -20,7 +22,7 @@
 
     <Link
       class="card__title"
-      :href="`/${componentName}/${post.id}`"
+      :href="`/${componentName}/${post.slug}`"
     >
       {{ post.title }}
     </Link>

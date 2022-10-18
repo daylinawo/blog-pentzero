@@ -1,3 +1,5 @@
+<!-- Videos page -->
+
 <template>
   <Hero />
   <Container>
@@ -15,13 +17,14 @@
 <script setup lang="ts">
 import useVideos from './useVideos';
 import { computed } from '@vue/reactivity';
-import BlogList from '@/components/BlogList.vue';
-import { usePageContext } from '@/renderer/usePageContext';
 
 import { POSTS_PER_PAGE } from '@/constants/settings';
+import { usePageContext } from '@/renderer/usePageContext';
 import { filterPostsData } from '@/composables/filterPostsData';
+
 import Hero from '@/components/Hero.vue';
 import Container from '@/components/Container.vue';
+import BlogList from '@/components/BlogList.vue';
 
 const pageContext = usePageContext();
 

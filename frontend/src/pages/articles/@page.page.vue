@@ -1,3 +1,5 @@
+<!-- Articles page -->
+
 <template>
   <Hero />
   <Container>

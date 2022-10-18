@@ -3,6 +3,7 @@ interface PostDetails {
   createdAt: Date;
   type: string;
   title: string;
+  slug: string;
   photo_url: string;
   category: string;
 }

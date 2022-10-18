@@ -1,1 +1,1 @@
-export default '/video/@id';
+export default '/video/@slug';

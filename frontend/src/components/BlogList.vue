@@ -1,3 +1,5 @@
+<!-- List of blog-post cards -->
+
 <template>
   <div class="cards__wrap">
     <BlogNavigation />
