@@ -1,1 +1,3 @@
-export const POSTS_PER_PAGE: number = 9;
+import { usePageContext } from '@/renderer/usePageContext';
+
+export const SIDEBAR_TITLE_MAX_LENGTH = 30;

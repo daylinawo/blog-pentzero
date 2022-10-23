@@ -2,7 +2,7 @@
 
 <template>
   <div class="card">
-    <div class="card__photo card__photo--16-9 card__photo--rounded-edges">
+    <div class="card__photo card__photo--16-9">
       <Link :href="`/${componentName}/${post.slug}`">
         <img :src="`${api_url}${post.photo_url}`" />
         <div
@@ -20,6 +20,9 @@
       </div>
     </div>
 
+    <div class="card__meta">
+      <span class="card__category">{{ post.category }}</span>
+    </div>
     <Link
       class="card__title"
       :href="`/${componentName}/${post.slug}`"
@@ -29,7 +32,6 @@
 
     <div class="card__meta-wrapper">
       <div class="card__meta">
-        <span class="card__category">{{ post.category }}</span>
         <span class="card__date">{{
           moment(post.createdAt).format('MMMM Do YYYY')
         }}</span>
@@ -37,6 +39,7 @@
       <div class="card__meta card__meta--row">
         <span>100k <ViewsIcon class="card__meta-icon" /></span>
         <span> 80 <CommentsIcon class="card__meta-icon" /></span>
+        <Link class="card__meta-share"> SHARE </Link>
       </div>
     </div>
   </div>
@@ -115,13 +118,17 @@ const componentName = computed(() => {
   }
 
   &__title {
-    font-size: 1.5rem;
+    font-size: 1rem;
     color: var(--neutralDarkest);
     text-decoration: underline 0.08em rgba(0, 0, 0, 0);
     letter-spacing: -0.01em;
     transition: text-decoration-color 700ms;
     line-height: 1em;
     font-weight: 600;
+
+    @include breakpoint(large) {
+      font-size: 1.5rem;
+    }
 
     &:hover {
       text-decoration-color: rgba(0, 0, 0, 1);
@@ -153,13 +160,12 @@ const componentName = computed(() => {
 
   &__icon {
     position: absolute;
-    bottom: 0.5em;
-    left: 0.5em;
+    bottom: 0em;
+    left: 0em;
     width: 3em;
     height: 3em;
     background: #eeb781ce;
     display: flex;
-    border-radius: 100%;
     justify-content: center;
     align-items: center;
     svg {
@@ -174,6 +180,12 @@ const componentName = computed(() => {
     vertical-align: middle;
     margin-bottom: 0.1em;
     fill: var(--neutralDarkest);
+  }
+
+  &__meta-share {
+    font-size: 12px;
+    margin-left: 1rem;
+    letter-spacing: 2px;
   }
 }
 </style>

@@ -1,0 +1,16 @@
+query GetHome {
+  home {
+    data {
+      attributes {
+        PostsPerPage
+        HeaderVideo {
+          data {
+            attributes {
+              url
+            }
+          }
+        }
+      }
+    }
+  }
+}

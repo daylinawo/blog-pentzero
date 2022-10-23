@@ -3,6 +3,7 @@
     "target": "esnext",
     "module": "esnext",
     "strict": true,
+    "allowJs": true,
     "jsx": "preserve",
     "moduleResolution": "node",
     "experimentalDecorators": true,
@@ -24,7 +25,7 @@
     "src/**/*.vue",
     "tests/**/*.ts",
     "tests/**/*.tsx",
-    "src/renderer/getPageTitle.js"
+    "src/apollo/queries/home/GetHome.graphql"
   ],
 
   "exclude": ["node_modules"]

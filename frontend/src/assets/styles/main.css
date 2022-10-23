@@ -52,6 +52,11 @@ button {
   border-radius: 100vw;
 }
 ::-webkit-scrollbar-thumb {
-  background-color: var(--scrollColor);
+  background-color: var(--primary);
   border-radius: 100vw;
+}
+
+.container {
+  width: min(100% - 40px, var(--max-width));
+  margin: auto;
 }

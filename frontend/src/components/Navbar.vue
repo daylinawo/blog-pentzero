@@ -25,6 +25,9 @@ import Link from '../renderer/Link.vue';
   background: #000;
   padding: 0.625em;
   margin-bottom: 2rem;
+  position: fixed;
+  width: 100%;
+  z-index: 1;
 
   nav {
     display: flex;

@@ -1,18 +1,14 @@
-<!-- List of blog-post cards -->
+<!-- List of blog cards -->
 
 <template>
   <div class="cards__wrap">
-    <BlogNavigation />
+    <BlogCardListNavigation />
     <div class="cards__header">
       <h3 class="cards__title">{{ title }}</h3>
-      <!--<div class="cards__page-meta">
-        <span class="cards__page-number">{{ pageNumber }}</span
-        >/<span class="cards__page-total">{{ pageTotal }}</span>
-      </div>-->
     </div>
 
     <div
-      class="l-grid l-grid--three-md"
+      class="l-grid l-grid--three-md l-grid--four-lg"
       v-if="posts"
     >
       <BlogCard
@@ -21,7 +17,7 @@
         :key="post.id"
       />
     </div>
-    <BlogPagination :page-total="pageTotal!" />
+    <BlogCardListPagination :page-total="pageTotal!" />
   </div>
 </template>
 
@@ -29,8 +25,8 @@
 import BlogCard from './BlogCard.vue';
 import { PropType } from 'vue';
 import PostDetails from '@/types/PostDetails';
-import BlogNavigation from '@/components/BlogNavigation.vue';
-import BlogPagination from '@/components/BlogPagination.vue';
+import BlogCardListNavigation from '@/components/BlogCardListNavigation.vue';
+import BlogCardListPagination from '@/components/BlogCardListPagination.vue';
 
 const props = defineProps({
   posts: {

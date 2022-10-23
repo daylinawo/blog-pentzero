@@ -1,43 +1,28 @@
 <template>
-  <div class="video-wrapper">
-    <Container>
-      <div class="grid grid--video">
-        <div class="video-player">
-          <iframe
-            allowFullScreen="allowFullScreen"
-            :src="`${videoURL}/?ecver=1&amp;autoplay=1&amp;iv_load_policy=1&amp;rel=0&amp;showinfo=0&amp;yt:stretch=16:9&amp;autohide=1&amp;color=red&amp;width=760&amp;width=760`"
-            width="760"
-            height="415"
-            allowtransparency="true"
-            frameborder="0"
-          >
-          </iframe>
-        </div>
-        <RelatedSidebar :posts="sidebarPosts" />
-      </div>
-    </Container>
-  </div>
-
-  <Container>
-    <div class="video-meta">
-      <h3 class="video-meta__title">
-        {{ result?.findSlug?.data?.attributes.title }}
-      </h3>
-      <div class="video-meta__description">
-        {{ result?.findSlug?.data?.attributes.description }}
-        {{ videoURL }}
+  <div class="l-grid l-grid--main">
+    <div class="header-wrapper">
+      <div class="l-grid l-grid--header">
+        <VideoPlayer :url="result?.findSlug!.data.attributes.url" />
+        <SidebarWidget :posts="posts" />
       </div>
     </div>
-  </Container>
+
+    <div class="left-wrapper">
+      <BlogPostMeta :meta="postDetails"></BlogPostMeta>
+    </div>
+    <div class="img"><img src="../../../assets/images/photo_1.jpg" /></div>
+  </div>
 </template>
 
 <script setup lang="ts">
 import { usePageContext } from '@/renderer/usePageContext';
 
-import Container from '@/components/Container.vue';
-import RelatedSidebar from '@/components/RelatedSidebar.vue';
+import SidebarWidget from '@/components/SidebarWidget.vue';
 import useVideoBySlug from './useVideoBySlug';
 import useVideos from '../useVideos';
+import VideoPlayer from '@/components/VideoPlayer.vue';
+import BlogPostMeta from '@/components/BlogPostMeta.vue';
+import PostMeta from '@/types/PostMeta';
 
 import { filterPostsData } from '@/composables/filterPostsData';
 import { computed } from 'vue';
@@ -48,12 +33,17 @@ const { result, loading, error } = useVideoBySlug({
   slug: pageContext.routeParams!.slug,
 });
 
-const videoURL = computed(() => {
-  return result.value!.findSlug!.data.attributes.url.replace(
-    'watch?v=',
-    'embed/'
-  );
+const postDetails = computed(() => {
+  let data: PostMeta = {
+    publishedAt: result?.value!.findSlug?.data?.attributes.publishedAt,
+    title: result?.value!.findSlug?.data?.attributes.title,
+    desc: result?.value!.findSlug?.data?.attributes.description,
+    category: result?.value!.findSlug?.data?.attributes.category,
+  };
+
+  return data;
 });
+
 // FETCH SIDEBAR CONTENT
 
 // vars for useVideos query
@@ -72,21 +62,37 @@ const {
 } = useVideos(queryVars);
 
 // get all video posts
-const sidebarPosts = computed(() => {
+const posts = computed(() => {
   return filterPostsData(sidebarResults?.value?.videos?.data.slice());
 });
 </script>
 
-<style lang="scss">
-.grid {
+<style lang="scss" scoped>
+.l-grid {
+  margin-block: 60px;
   display: grid;
-
-  &--video {
+  &--main {
+    grid-template-rows: minmax(250px, 650px) auto;
+    grid-template-columns: 3fr minmax(300px, 800px) 1fr minmax(300px, 400px) 3fr;
+    grid-template-areas:
+      'header header header header header'
+      '...... main     .    side   ......  ';
+  }
+  &--header {
     grid-template-columns: 3fr 1fr;
+    max-width: var(--max-width);
+    margin: auto;
+  }
+
+  &--body {
   }
 }
+.left-wrapper {
+  grid-area: main;
+}
 
-.video-wrapper {
+.header-wrapper {
+  grid-area: header;
   background-color: black;
   margin-top: -2rem;
   padding-top: 3rem;
@@ -94,29 +100,10 @@ const sidebarPosts = computed(() => {
   overflow: hidden;
 }
 
-.video-player {
-  position: relative;
-  padding-bottom: 56.25%;
-  height: 0;
-  overflow: hidden;
-  max-width: 100%;
-
-  iframe,
-  object,
-  embed {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-  }
-}
-
-.video-meta {
-  margin-top: 2rem;
-
-  &__title {
-    font-size: 1.5em;
+.img {
+  grid-area: side;
+  img {
+    max-width: 100%;
   }
 }
 </style>

@@ -20,7 +20,7 @@
   background-color: black;
   margin-top: -2rem;
   margin-bottom: 3em;
-  height: 70vh;
+  height: 100vh;
 
   @include breakpoint-down(large) {
     display: none;

@@ -221,6 +221,7 @@ export type FloatFilterInput = {
 export type GenericMorph =
   | Article
   | Category
+  | Home
   | I18NLocale
   | UploadFile
   | UploadFolder
@@ -228,6 +229,32 @@ export type GenericMorph =
   | UsersPermissionsRole
   | UsersPermissionsUser
   | Video;
+
+export type Home = {
+  __typename?: 'Home';
+  HeaderVideo?: Maybe<UploadFileEntityResponse>;
+  PostsPerPage?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  publishedAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type HomeEntity = {
+  __typename?: 'HomeEntity';
+  attributes?: Maybe<Home>;
+  id?: Maybe<Scalars['ID']>;
+};
+
+export type HomeEntityResponse = {
+  __typename?: 'HomeEntityResponse';
+  data?: Maybe<HomeEntity>;
+};
+
+export type HomeInput = {
+  HeaderVideo?: InputMaybe<Scalars['ID']>;
+  PostsPerPage?: InputMaybe<Scalars['Int']>;
+  publishedAt?: InputMaybe<Scalars['DateTime']>;
+};
 
 export type I18NLocale = {
   __typename?: 'I18NLocale';
@@ -352,6 +379,7 @@ export type Mutation = {
   createVideo?: Maybe<VideoEntityResponse>;
   deleteArticle?: Maybe<ArticleEntityResponse>;
   deleteCategory?: Maybe<CategoryEntityResponse>;
+  deleteHome?: Maybe<HomeEntityResponse>;
   deleteUploadFile?: Maybe<UploadFileEntityResponse>;
   deleteUploadFolder?: Maybe<UploadFolderEntityResponse>;
   /** Delete an existing role */
@@ -373,6 +401,7 @@ export type Mutation = {
   updateArticle?: Maybe<ArticleEntityResponse>;
   updateCategory?: Maybe<CategoryEntityResponse>;
   updateFileInfo: UploadFileEntityResponse;
+  updateHome?: Maybe<HomeEntityResponse>;
   updateUploadFile?: Maybe<UploadFileEntityResponse>;
   updateUploadFolder?: Maybe<UploadFolderEntityResponse>;
   /** Update an existing role */
@@ -493,6 +522,10 @@ export type MutationUpdateFileInfoArgs = {
   info?: InputMaybe<FileInfoInput>;
 };
 
+export type MutationUpdateHomeArgs = {
+  data: HomeInput;
+};
+
 export type MutationUpdateUploadFileArgs = {
   data: UploadFileInput;
   id: Scalars['ID'];
@@ -553,6 +586,7 @@ export type Query = {
   categories?: Maybe<CategoryEntityResponseCollection>;
   category?: Maybe<CategoryEntityResponse>;
   findSlug?: Maybe<FindSlugResponse>;
+  home?: Maybe<HomeEntityResponse>;
   i18NLocale?: Maybe<I18NLocaleEntityResponse>;
   i18NLocales?: Maybe<I18NLocaleEntityResponseCollection>;
   me?: Maybe<UsersPermissionsMe>;
@@ -594,6 +628,10 @@ export type QueryFindSlugArgs = {
   modelName?: InputMaybe<Scalars['String']>;
   publicationState?: InputMaybe<Scalars['String']>;
   slug?: InputMaybe<Scalars['String']>;
+};
+
+export type QueryHomeArgs = {
+  publicationState?: InputMaybe<PublicationState>;
 };
 
 export type QueryI18NLocaleArgs = {
@@ -1061,7 +1099,7 @@ export type Video = {
   createdAt?: Maybe<Scalars['DateTime']>;
   description?: Maybe<Scalars['String']>;
   publishedAt?: Maybe<Scalars['DateTime']>;
-  slug: Scalars['String'];
+  slug?: Maybe<Scalars['String']>;
   thumbnail: UploadFileEntityResponse;
   title: Scalars['String'];
   updatedAt?: Maybe<Scalars['DateTime']>;
@@ -1166,6 +1204,29 @@ export type GetArticlesQuery = {
   } | null;
 };
 
+export type GetHomeQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetHomeQuery = {
+  __typename?: 'Query';
+  home?: {
+    __typename?: 'HomeEntityResponse';
+    data?: {
+      __typename?: 'HomeEntity';
+      attributes?: {
+        __typename?: 'Home';
+        PostsPerPage?: number | null;
+        HeaderVideo?: {
+          __typename?: 'UploadFileEntityResponse';
+          data?: {
+            __typename?: 'UploadFileEntity';
+            attributes?: { __typename?: 'UploadFile'; url: string } | null;
+          } | null;
+        } | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
 export type GetVideoByIdQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -1257,7 +1318,7 @@ export type GetVideosQuery = {
         __typename: 'Video';
         publishedAt?: any | null;
         title: string;
-        slug: string;
+        slug?: string | null;
         thumbnail: {
           __typename?: 'UploadFileEntityResponse';
           data?: {
@@ -1521,6 +1582,89 @@ export const GetArticlesDocument = {
     },
   ],
 } as unknown as DocumentNode<GetArticlesQuery, GetArticlesQueryVariables>;
+export const GetHomeDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetHome' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'home' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'data' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'attributes' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'PostsPerPage' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'HeaderVideo' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'data' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'attributes',
+                                          },
+                                          selectionSet: {
+                                            kind: 'SelectionSet',
+                                            selections: [
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'url',
+                                                },
+                                              },
+                                            ],
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetHomeQuery, GetHomeQueryVariables>;
 export const GetVideoByIdDocument = {
   kind: 'Document',
   definitions: [

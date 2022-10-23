@@ -2,8 +2,8 @@
 
 <template>
   <Hero />
-  <Container>
-    <BlogList
+  <div class="container">
+    <BlogCardList
       v-if="posts"
       :posts="posts"
       :title="'Videos'"
@@ -11,22 +11,23 @@
       :page-total="pageTotal!"
     />
     <p v-if="loading">loading...</p>
-  </Container>
+  </div>
 </template>
 
 <script setup lang="ts">
 import useVideos from './useVideos';
 import { computed } from '@vue/reactivity';
-
-import { POSTS_PER_PAGE } from '@/constants/settings';
+import useHome from '@/composables/UseHome';
 import { usePageContext } from '@/renderer/usePageContext';
 import { filterPostsData } from '@/composables/filterPostsData';
-
 import Hero from '@/components/Hero.vue';
-import Container from '@/components/Container.vue';
-import BlogList from '@/components/BlogList.vue';
+import BlogCardList from '@/components/BlogCardList.vue';
 
 const pageContext = usePageContext();
+
+const { result: homeRes, error: homeErr, loading: homeLoading } = useHome();
+
+const postsPerPage = homeRes.value?.home?.data?.attributes?.PostsPerPage;
 
 // current page number
 const page = computed(() => {
@@ -45,9 +46,10 @@ const pageTotal = computed(() => {
 
 // variables for GRAPHQL query
 const queryVars = computed(() => {
-  const offset = (page.value - 1) * POSTS_PER_PAGE;
+  const ppp = postsPerPage ? postsPerPage : 7;
+  const offset = (page.value - 1) * ppp;
   return {
-    limit: POSTS_PER_PAGE,
+    limit: 7,
     start: offset,
     orderBy: 'publishedAt:desc',
   };

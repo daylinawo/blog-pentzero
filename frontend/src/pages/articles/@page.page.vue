@@ -2,8 +2,8 @@
 
 <template>
   <Hero />
-  <Container>
-    <BlogList
+  <div class="container">
+    <BlogCardList
       v-if="posts"
       :posts="posts"
       :title="'Articles'"
@@ -11,18 +11,17 @@
       :page-total="pageTotal!"
     />
     <p v-if="loading">loading...</p>
-  </Container>
+  </div>
 </template>
 
 <script setup lang="ts">
 import useArticles from './useArticles';
 import { usePageContext } from '@/renderer/usePageContext';
 import { computed } from '@vue/reactivity';
-import BlogList from '@/components/BlogList.vue';
+import BlogCardList from '@/components/BlogCardList.vue';
 
 import { filterPostsData } from '@/composables/filterPostsData';
 import { POSTS_PER_PAGE } from '@/constants/settings';
-import Container from '../../components/Container.vue';
 import Hero from '@/components/Hero.vue';
 
 const pageContext = usePageContext();
