@@ -22,7 +22,7 @@ import useVideoBySlug from './useVideoBySlug';
 import useVideos from '../useVideos';
 import VideoPlayer from '@/components/VideoPlayer.vue';
 import BlogPostMeta from '@/components/BlogPostMeta.vue';
-import PostMeta from '@/types/PostMeta';
+import PostMeta from '@/custom-types/PostMeta';
 
 import { filterPostsData } from '@/composables/filterPostsData';
 import { computed } from 'vue';
@@ -34,14 +34,14 @@ const { result, loading, error } = useVideoBySlug({
 });
 
 const postDetails = computed(() => {
-  let data: PostMeta = {
+  let details: PostMeta = {
     publishedAt: result?.value!.findSlug?.data?.attributes.publishedAt,
     title: result?.value!.findSlug?.data?.attributes.title,
     desc: result?.value!.findSlug?.data?.attributes.description,
     category: result?.value!.findSlug?.data?.attributes.category,
   };
 
-  return data;
+  return details;
 });
 
 // FETCH SIDEBAR CONTENT

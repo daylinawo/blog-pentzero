@@ -12,10 +12,6 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "description": {
-      "type": "text",
-      "required": false
-    },
     "url": {
       "type": "string",
       "required": true,
@@ -33,7 +29,7 @@
     },
     "slug": {
       "type": "string",
-      "required": true,
+      "required": false,
       "unique": true
     },
     "thumbnail": {
@@ -43,6 +39,10 @@
       "allowedTypes": [
         "images"
       ]
+    },
+    "description": {
+      "type": "richtext",
+      "required": true
     }
   }
 }

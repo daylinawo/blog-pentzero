@@ -7,4 +7,12 @@ interface PostDetails {
   photo_url: string;
   category: string;
 }
-export default PostDetails;
+
+interface PostMeta {
+  publishedAt: Date;
+  title: string;
+  desc: string;
+  category: string;
+}
+
+export { PostDetails, PostMeta };

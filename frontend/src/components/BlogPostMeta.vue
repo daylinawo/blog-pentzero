@@ -18,7 +18,7 @@
 <script setup lang="ts">
 import moment from 'moment';
 import Markdown from 'vue3-markdown-it';
-import PostMeta from '@/types/PostMeta';
+import { PostMeta } from '@/custom-types';
 import { PropType } from 'vue';
 
 const props = defineProps({

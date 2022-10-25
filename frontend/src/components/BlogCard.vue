@@ -48,7 +48,7 @@
 <script setup lang="ts">
 import { computed } from '@vue/runtime-core';
 import { PropType } from 'vue';
-import PostDetails from '@/types/PostDetails';
+import { PostDetails } from '@/custom-types';
 import moment from 'moment';
 import VideoIcon from '@/assets/images/icon-video.svg?component';
 import ArticleIcon from '@/assets/images/icon-article.svg?component';

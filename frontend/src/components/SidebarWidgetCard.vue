@@ -14,7 +14,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import PostDetails from '@/types/PostDetails';
+import { PostDetails } from '@/custom-types';
 import Link from '@/renderer/Link.vue';
 import truncateString from '@/composables/truncateString';
 import { SIDEBAR_TITLE_MAX_LENGTH } from '@/constants/settings';

@@ -15,48 +15,55 @@
 </template>
 
 <script setup lang="ts">
-import useVideos from './useVideos';
+import { useLazyVideos } from './useVideos';
 import { computed } from '@vue/reactivity';
-import useHome from '@/composables/UseHome';
 import { usePageContext } from '@/renderer/usePageContext';
 import { filterPostsData } from '@/composables/filterPostsData';
+import useHome from '@/composables/UseHome';
 import Hero from '@/components/Hero.vue';
 import BlogCardList from '@/components/BlogCardList.vue';
 
+import { GetVideosDocument, GetVideosQueryVariables } from '@/types.d';
+import { watchEffect, ref } from 'vue';
+
 const pageContext = usePageContext();
-
-const { result: homeRes, error: homeErr, loading: homeLoading } = useHome();
-
-const postsPerPage = homeRes.value?.home?.data?.attributes?.PostsPerPage;
 
 // current page number
 const page = computed(() => {
   return parseInt(pageContext.routeParams!.page, 10);
 });
 
-// get all video posts
-const posts = computed(() => {
-  return filterPostsData(result?.value?.videos?.data.slice());
+const postsPerPage = ref<number | null>(null);
+const posts = ref(null);
+const videoQueryVars = ref<GetVideosQueryVariables>();
+
+const { result: homeRes, error: homeErr, loading: homeLoading } = useHome();
+const { result, error, loading, load } = useLazyVideos();
+
+watchEffect(() => {
+  postsPerPage.value = homeRes?.value?.home?.data?.attributes?.PostsPerPage!;
+
+  if (postsPerPage.value) {
+    //update GRAPHQL query vars
+    videoQueryVars.value = {
+      limit: postsPerPage.value,
+      start: (page.value - 1) * postsPerPage.value!,
+      orderBy: 'publishedAt:desc',
+    };
+
+    //load graphql query
+    load(GetVideosDocument, videoQueryVars.value);
+  }
+
+  // get all posts data from database
+  if (result.value)
+    posts.value = filterPostsData(result?.value?.videos?.data.slice());
 });
 
-// total number of pages for video posts
+// total number of pages for posts
 const pageTotal = computed(() => {
   return result.value?.videos?.meta.pagination.pageCount;
 });
-
-// variables for GRAPHQL query
-const queryVars = computed(() => {
-  const ppp = postsPerPage ? postsPerPage : 7;
-  const offset = (page.value - 1) * ppp;
-  return {
-    limit: 7,
-    start: offset,
-    orderBy: 'publishedAt:desc',
-  };
-});
-
-// get all video posts data from database
-const { result, error, loading } = useVideos(queryVars);
 </script>
 
 <script lang="ts">

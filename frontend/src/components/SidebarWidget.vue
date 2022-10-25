@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import PostDetails from '@/types/PostDetails';
+import { PostDetails } from '@/custom-types';
 import { PropType } from 'vue';
 import SidebarWidgetCard from './SidebarWidgetCard.vue';
 

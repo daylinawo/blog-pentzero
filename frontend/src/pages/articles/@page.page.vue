@@ -15,14 +15,19 @@
 </template>
 
 <script setup lang="ts">
-import useArticles from './useArticles';
-import { usePageContext } from '@/renderer/usePageContext';
+import { watchEffect, ref } from 'vue';
 import { computed } from '@vue/reactivity';
-import BlogCardList from '@/components/BlogCardList.vue';
-
 import { filterPostsData } from '@/composables/filterPostsData';
-import { POSTS_PER_PAGE } from '@/constants/settings';
+
+import { PostDetails } from '@/custom-types';
+import { GetArticlesDocument, GetArticlesQueryVariables } from '../../types.d';
+
+import UseHome from '@/composables/UseHome';
+import { useLazyArticles } from './useArticles';
+import { usePageContext } from '@/renderer/usePageContext';
+
 import Hero from '@/components/Hero.vue';
+import BlogCardList from '@/components/BlogCardList.vue';
 
 const pageContext = usePageContext();
 
@@ -31,28 +36,37 @@ const page = computed(() => {
   return parseInt(pageContext.routeParams!.page, 10);
 });
 
-// get all article posts
-const posts = computed(() => {
-  return filterPostsData(result?.value?.articles?.data.slice());
+const postsPerPage = ref<number | null>(null);
+const posts = ref<PostDetails[]>();
+const articleQueryVars = ref<GetArticlesQueryVariables>();
+
+const { result: homeRes, error: homeErr, loading: homeLoading } = UseHome();
+const { result, error, loading, load } = useLazyArticles();
+
+watchEffect(() => {
+  postsPerPage.value = homeRes.value?.home?.data?.attributes?.PostsPerPage!;
+
+  if (postsPerPage.value) {
+    //update GRAPHQL query vars
+    articleQueryVars.value = {
+      limit: postsPerPage.value,
+      start: (page.value - 1) * postsPerPage.value,
+      orderBy: 'publishedAt:desc',
+    };
+
+    // get all article posts from database
+    load(GetArticlesDocument, articleQueryVars.value);
+  }
+
+  // get all article posts
+  if (result.value)
+    posts.value = filterPostsData(result?.value?.articles?.data.slice());
 });
 
-// total page count
+// total number of pages for posts
 const pageTotal = computed(() => {
   return result.value?.articles?.meta.pagination.pageCount;
 });
-
-// variables for GRAPHQL query
-const queryVars = computed(() => {
-  const offset = (page.value - 1) * POSTS_PER_PAGE;
-  return {
-    limit: POSTS_PER_PAGE,
-    start: offset,
-    orderBy: 'publishedAt:desc',
-  };
-});
-
-// get all article posts from database
-const { result, error, loading } = useArticles(queryVars);
 </script>
 
 <script lang="ts">

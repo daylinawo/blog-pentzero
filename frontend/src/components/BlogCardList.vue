@@ -24,7 +24,7 @@
 <script setup lang="ts">
 import BlogCard from './BlogCard.vue';
 import { PropType } from 'vue';
-import PostDetails from '@/types/PostDetails';
+import { PostDetails } from '@/custom-types';
 import BlogCardListNavigation from '@/components/BlogCardListNavigation.vue';
 import BlogCardListPagination from '@/components/BlogCardListPagination.vue';
 
