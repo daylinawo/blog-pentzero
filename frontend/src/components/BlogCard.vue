@@ -1,9 +1,7 @@
-<!-- Blog card component -->
-
 <template>
   <div class="card">
     <div class="card__photo card__photo--16-9">
-      <Link :href="`/${componentName}/${post.slug}`">
+      <Link :href="`/${componentName()}/${post.slug}`">
         <img :src="`${api_url}${post.photo_url}`" />
         <div
           class="card__icon"
@@ -25,20 +23,22 @@
     </div>
     <Link
       class="card__title"
-      :href="`/${componentName}/${post.slug}`"
+      :href="`/${componentName()}/${post.slug}`"
     >
       {{ post.title }}
     </Link>
 
     <div class="card__meta-wrapper">
       <div class="card__meta">
-        <span class="card__date">{{
-          moment(post.createdAt).format('MMMM Do YYYY')
-        }}</span>
+        <AppDate
+          :timestamp="post.createdAt"
+          class="card__date"
+        />
       </div>
       <div class="card__meta card__meta--row">
         <span>100k <ViewsIcon class="card__meta-icon" /></span>
-        <span> 80 <CommentsIcon class="card__meta-icon" /></span>
+        <DisqusCount :identifier="`/${componentName()}/${post.slug}`" />
+        <span> <CommentsIcon class="card__meta-icon" /></span>
         <Link class="card__meta-share"> SHARE </Link>
       </div>
     </div>
@@ -46,15 +46,12 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from '@vue/runtime-core';
 import { PropType } from 'vue';
 import { PostDetails } from '@/custom-types';
-import moment from 'moment';
 import VideoIcon from '@/assets/images/icon-video.svg?component';
 import ArticleIcon from '@/assets/images/icon-article.svg?component';
 import CommentsIcon from '@/assets/images/icon-comments.svg?component';
 import ViewsIcon from '@/assets/images/icon-views.svg?component';
-import Link from '@/renderer/Link.vue';
 
 const props = defineProps({
   post: {
@@ -65,12 +62,10 @@ const props = defineProps({
 
 const api_url = import.meta.env.VITE_STRAPI_API_URL;
 
-const componentName = computed(() => {
-  if (props.post.type == 'Video') return 'video';
-  else if (props.post.type == 'Article') return 'article';
-  else if (props.post.type == 'Gallery') return 'gallery';
-  else return '';
-});
+function componentName() {
+  const name = props.post.type.toLowerCase();
+  return ['video', 'article', 'gallery'].includes(name) ? name : '';
+}
 </script>
 
 <style lang="scss">

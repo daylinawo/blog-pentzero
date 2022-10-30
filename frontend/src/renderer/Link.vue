@@ -7,7 +7,8 @@
 a.active {
 }
 </style>
-<script lang="ts" setup>
+
+<script setup lang="ts">
 import { usePageContext } from './usePageContext';
 const pageContext = usePageContext();
 </script>

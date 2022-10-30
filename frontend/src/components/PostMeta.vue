@@ -5,9 +5,10 @@
     </h3>
     <div class="meta">
       <div class="meta__views">300,000 views</div>
-      <div class="meta__date">
-        {{ moment(meta.publishedAt).format('MMMM Do YYYY') }}
-      </div>
+      <AppDate
+        :timestamp="meta.publishedAt"
+        class="meta__date"
+      />
     </div>
 
     <div class="details__description">
@@ -16,10 +17,10 @@
   </div>
 </template>
 <script setup lang="ts">
-import moment from 'moment';
 import Markdown from 'vue3-markdown-it';
 import { PostMeta } from '@/custom-types';
 import { PropType } from 'vue';
+import AppDate from './AppDate.vue';
 
 const props = defineProps({
   meta: { type: Object as PropType<PostMeta>, required: true },
@@ -28,11 +29,11 @@ const props = defineProps({
 
 <style lang="scss">
 .details {
-  margin-top: 1rem;
-
   &__title {
     margin-bottom: 1rem;
     font-size: 2.5em;
+    font-weight: 600;
+    letter-spacing: -0.03em;
   }
   &__description {
     font-size: 0.875em;
@@ -47,10 +48,12 @@ const props = defineProps({
   &__views {
     font-size: 0.875em;
     margin-right: 0.75rem;
+    font-weight: 600;
   }
 
   &__date {
     font-size: 0.875em;
+    font-weight: 600;
   }
 }
 </style>

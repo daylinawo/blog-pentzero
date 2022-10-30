@@ -24,20 +24,19 @@ const props = defineProps({
 
 <style lang="scss" scoped>
 .sidebar {
-  background: var(--neutralDarker);
-  padding: 0.625rem;
+  background: var(--neutralLightest);
+  padding-inline: 0.625rem;
 
   &__title {
-    font-size: 0.6875em;
+    font-size: 0.875em;
     margin-bottom: 0.625rem;
     text-transform: uppercase;
-    letter-spacing: 0.5ch;
-    color: var(--neutralLightest);
-    font-weight: 500;
+    letter-spacing: 0.125em;
+    color: var(--neutralDark);
+    font-weight: 600;
   }
 
   &__body {
-    padding-right: 0.625rem;
     overflow-y: scroll;
     overflow-x: hidden;
     max-height: 600px;

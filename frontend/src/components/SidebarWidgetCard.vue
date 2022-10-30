@@ -39,11 +39,11 @@ const postTitle = (title: string) => {
     grid-template-columns: 1fr 1fr;
     grid-gap: 0.625rem;
 
-    padding: 0.375rem;
+    padding-block: 0.375rem;
     transition: background-color 400ms;
 
     &:hover {
-      background-color: var(--scrollColor);
+      background-color: var(--neutralLighter);
     }
   }
 
@@ -71,8 +71,9 @@ const postTitle = (title: string) => {
   }
 
   &__title {
-    color: var(--neutralLightest);
-    font-size: 14px;
+    color: var(--neutralDark);
+    font-size: 1.125em;
+    font-weight: 600;
   }
 }
 </style>

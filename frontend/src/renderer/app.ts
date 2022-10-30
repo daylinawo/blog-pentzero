@@ -5,9 +5,10 @@ import { setPageContext } from './usePageContext';
 import type { PageContext } from './types';
 import '@/assets/styles/main.css';
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client/core';
+import { registerComponents } from './registerComponents';
+import VueDisqus from 'vue-disqus';
 
 export { createApp };
-
 function createApp(
   pageContext: PageContext,
   apolloClient: ApolloClient<NormalizedCacheObject>
@@ -32,6 +33,11 @@ function createApp(
 
   const app = createSSRApp(PageWithLayout);
 
+  app.use(VueDisqus, {
+    shortname: 'pentdemo',
+  });
+
+  registerComponents(app);
   // Make `pageContext` available from any Vue component
   setPageContext(app, pageContext);
 
