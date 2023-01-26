@@ -1,0 +1,18 @@
+@use 'variables' as *;
+
+@mixin breakpoint($size) {
+  @media (min-width: map-get($breakpoints-up, $size)) {
+    @content;
+  }
+}
+
+@mixin breakpoint-down($size) {
+  @media (max-width: map-get($breakpoints-down, $size)) {
+    @content;
+  }
+}
+
+@mixin wrapper($size: medium) {
+  width: min(100% - 40px, map-get($wrapper-sizes, $size));
+  margin: auto;
+}

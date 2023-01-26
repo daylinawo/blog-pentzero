@@ -1,0 +1,52 @@
+@use '../abstracts' as *;
+@use 'sass:math';
+
+/* variables */
+:root {
+  @each $name, $color in $colors {
+    @if type-of($color) == 'map' {
+      @each $subname, $subcolor in $color {
+        @if $subname == 'base' {
+          --color-#{$name}: #{$subcolor};
+        } @else {
+          --color-#{$name}-#{$subname}: #{$subcolor};
+        }
+      }
+    } @else {
+      --color-#{$name}: #{$color};
+    }
+  }
+
+  --white: #ffffff;
+  --black: #000000;
+
+  //typography
+  --color-text: var(--black);
+  --color-text-heading: var(--black);
+  --color-link: var(--black);
+  --color-link-visited: var(--color-gray-200);
+  --color-link-hover: var(--color-primary);
+
+  //border
+  --color-border: var(--color-gray-600);
+
+  //body
+  --color-body: var(--white);
+
+  $level-size: $type-base-size;
+
+  @each $name in $type-level-large {
+    $level-size: $level-size * $type-size-scale;
+    --fs-#{$name}: #{round($level-size, 3)};
+  }
+
+  $level-size: $type-base-size;
+
+  @each $name in $type-level-small {
+    $level-size: math.div($level-size, $type-size-scale);
+    --fs-#{$name}: #{round($level-size, 3)};
+  }
+
+  --fs-base: $type-base-size;
+  --max-width: 1440px;
+}

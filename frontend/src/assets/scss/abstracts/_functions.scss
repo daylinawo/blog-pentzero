@@ -1,0 +1,16 @@
+@use 'sass:math';
+@use 'variables' as *;
+
+@function toRem($value) {
+  $remValue: math.div($value, $type-base-size);
+  @return $remValue;
+}
+
+@function color($color-name) {
+  @return var(--color-#{$color-name});
+}
+
+@function round($value, $fractionDigits: 0) {
+  $power: math.pow(10, $fractionDigits);
+  @return math.div(math.round($power * $value), $power);
+}

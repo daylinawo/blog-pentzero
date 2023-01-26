@@ -1,33 +1,32 @@
 <template>
   <div class="card">
-    <Link
+    <AppLink
       class="card__link"
       href="#"
     >
       <div class="card__photo card__photo--16-9">
-        <img :src="`${api_url}${post.photo_url}`" />
+        <img :src="`${api_url}${post.imagePath}`" />
       </div>
       <div class="card__meta">
         <h3 class="card__title">{{ postTitle(post.title) }}</h3>
       </div>
-    </Link>
+    </AppLink>
   </div>
 </template>
 <script setup lang="ts">
-import { PostDetails } from '@/custom-types';
-import Link from '@/renderer/Link.vue';
-import truncateString from '@/composables/truncateString';
-import { SIDEBAR_TITLE_MAX_LENGTH } from '@/constants/settings';
+import { BlogPostInfo } from '@/utils/types';
+import { truncateString } from '@/utils/helpers';
+import { POST_TITLE_MAX_LENGTH } from '@/utils/constants';
 import { PropType } from 'vue';
 
 const props = defineProps({
-  post: { type: Object as PropType<PostDetails>, required: true },
+  post: { type: Object as PropType<BlogPostInfo>, required: true },
 });
 
 const api_url = import.meta.env.VITE_STRAPI_API_URL;
 
 const postTitle = (title: string) => {
-  return truncateString(title, SIDEBAR_TITLE_MAX_LENGTH);
+  return truncateString(title, POST_TITLE_MAX_LENGTH);
 };
 </script>
 <style lang="scss" scoped>

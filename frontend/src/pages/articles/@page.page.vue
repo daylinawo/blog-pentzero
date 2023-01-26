@@ -1,33 +1,35 @@
 <!-- Articles page -->
 
 <template>
-  <Hero />
   <div class="container">
     <BlogCardList
       v-if="posts"
       :posts="posts"
-      :title="'Articles'"
       :page-number="page"
       :page-total="pageTotal!"
+      :title="$options.name!"
     />
     <p v-if="loading">loading...</p>
   </div>
 </template>
 
+<script lang="ts">
+export default { name: 'articles' };
+export const documentProps = { title: 'Articles | Pentzero' };
+export { default as Layout } from '@/layouts/LayoutHome.vue';
+</script>
+
 <script setup lang="ts">
-import { watchEffect, ref } from 'vue';
-import { computed } from '@vue/reactivity';
-import { filterPostsData } from '@/composables/filterPostsData';
-
-import { PostDetails } from '@/custom-types';
-import { GetArticlesDocument, GetArticlesQueryVariables } from '../../types.d';
-
-import UseHome from '@/composables/UseHome';
-import { useLazyArticles } from './useArticles';
-import { usePageContext } from '@/renderer/usePageContext';
-
-import Hero from '@/components/Hero.vue';
 import BlogCardList from '@/components/BlogCardList.vue';
+
+import useArticles from './useArticles';
+import { usePageContext } from '@/renderer/usePageContext';
+import { BlogPostInfo } from '@/utils/types';
+import { POSTS_PER_PAGE } from '@/utils/constants';
+import { mapToPostInfo } from '@/utils/helpers';
+
+import { computed } from '@vue/reactivity';
+import { ref, watchEffect } from 'vue';
 
 const pageContext = usePageContext();
 
@@ -36,39 +38,25 @@ const page = computed(() => {
   return parseInt(pageContext.routeParams!.page, 10);
 });
 
-const postsPerPage = ref<number | null>(null);
-const posts = ref<PostDetails[]>();
-const articleQueryVars = ref<GetArticlesQueryVariables>();
+const queryVars = ref({
+  limit: POSTS_PER_PAGE,
+  start: (page.value - 1) * POSTS_PER_PAGE,
+  orderBy: 'publishedAt:desc',
+});
 
-const { result: homeRes, error: homeErr, loading: homeLoading } = UseHome();
-const { result, error, loading, load } = useLazyArticles();
+const posts = ref<BlogPostInfo[]>();
 
+const { result, error, loading } = useArticles(queryVars.value);
+
+// get all posts data
 watchEffect(() => {
-  postsPerPage.value = homeRes.value?.home?.data?.attributes?.PostsPerPage!;
-
-  if (postsPerPage.value) {
-    //update GRAPHQL query vars
-    articleQueryVars.value = {
-      limit: postsPerPage.value,
-      start: (page.value - 1) * postsPerPage.value,
-      orderBy: 'publishedAt:desc',
-    };
-
-    // get all article posts from database
-    load(GetArticlesDocument, articleQueryVars.value);
+  if (result.value) {
+    posts.value = mapToPostInfo(result?.value);
   }
-
-  // get all article posts
-  if (result.value)
-    posts.value = filterPostsData(result?.value?.articles?.data.slice());
 });
 
 // total number of pages for posts
 const pageTotal = computed(() => {
   return result.value?.articles?.meta.pagination.pageCount;
 });
-</script>
-
-<script lang="ts">
-export const documentProps = { title: 'Articles | Pentzero' };
 </script>

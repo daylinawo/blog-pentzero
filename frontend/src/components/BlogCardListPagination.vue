@@ -1,19 +1,23 @@
 <template>
   <div
     v-if="pageTotal"
-    class="pagination"
+    :class="$style.pagination"
   >
-    <Link
-      v-for="p in pageTotal"
-      :href="`/${postType}/${p}`"
-      >{{ p }}</Link
-    >
+    <AppLink
+      class="h3"
+      :activeClass="$style.active"
+      v-for="pageNum in pageTotal"
+      :href="`/${postType}/${pageNum}`"
+      >{{ pageNum }}</AppLink
     >
   </div>
 </template>
-
+<script lang="ts">
+export default {
+  name: 'BlogCardListPagination',
+};
+</script>
 <script setup lang="ts">
-import Link from '@/renderer/Link.vue';
 import { usePageContext } from '@/renderer/usePageContext';
 
 const pageContext = usePageContext();
@@ -28,7 +32,7 @@ const props = defineProps({
 });
 </script>
 
-<style lang="scss">
+<style lang="scss" module>
 .pagination {
   display: flex;
   justify-content: center;
@@ -36,19 +40,16 @@ const props = defineProps({
   margin-top: 4em;
 
   a {
-    font-size: 1.5em;
-    --size: 3ch;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: var(--size);
+    width: 2em;
     box-sizing: border-box;
-    color: var(--tertiary);
   }
 
   .active {
-    color: var(--primary);
-    border-top: 1px solid var(--primary);
+    color: color(primary);
+    border-top: 1px solid color(primary);
   }
 }
 </style>

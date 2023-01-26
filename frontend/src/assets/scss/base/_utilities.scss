@@ -1,0 +1,209 @@
+@use 'sass:math';
+@use '../abstracts/variables' as *;
+
+$utilities: (
+  'padding': (
+    'prefix': 'p',
+    'values': (
+      '0': 0,
+      '1': $base-padding,
+      '2': $base-padding * 2,
+      '3': $base-padding * 4,
+      '4': $base-padding * 6,
+      '5': $base-padding * 8,
+      '6': $base-padding * 10,
+    ),
+  ),
+  'padding-left': (
+    'prefix': 'pl',
+    'values': (
+      '0': 0,
+      '1': $base-padding,
+      '2': $base-padding * 2,
+      '3': $base-padding * 4,
+      '4': $base-padding * 6,
+      '5': $base-padding * 8,
+      '6': $base-padding * 10,
+    ),
+  ),
+  'padding-right': (
+    'prefix': 'pr',
+    'values': (
+      '0': 0,
+      '1': $base-padding,
+      '2': $base-padding * 2,
+      '3': $base-padding * 4,
+      '4': $base-padding * 6,
+      '5': $base-padding * 8,
+      '6': $base-padding * 10,
+    ),
+  ),
+  'padding-top': (
+    'prefix': 'pt',
+    'values': (
+      '0': 0,
+      '1': $base-padding,
+      '2': $base-padding * 2,
+      '3': $base-padding * 4,
+      '4': $base-padding * 6,
+      '5': $base-padding * 8,
+      '6': $base-padding * 10,
+    ),
+  ),
+  'padding-bottom': (
+    'prefix': 'pb',
+    'values': (
+      '0': 0,
+      '1': $base-padding,
+      '2': $base-padding * 2,
+      '3': $base-padding * 4,
+      '4': $base-padding * 6,
+      '5': $base-padding * 8,
+      '6': $base-padding * 10,
+    ),
+  ),
+  'padding-block': (
+    'prefix': 'py',
+    'values': (
+      '0': 0,
+      '1': $base-padding,
+      '2': $base-padding * 2,
+      '3': $base-padding * 4,
+      '4': $base-padding * 6,
+      '5': $base-padding * 8,
+      '6': $base-padding * 10,
+    ),
+  ),
+  'padding-inline': (
+    'prefix': 'px',
+    'values': (
+      '0': 0,
+      '1': $base-padding,
+      '2': $base-padding * 2,
+      '3': $base-padding * 4,
+      '4': $base-padding * 6,
+      '5': $base-padding * 8,
+      '6': $base-padding * 10,
+    ),
+  ),
+  'margin': (
+    'prefix': 'm',
+    'values': (
+      '0': 0,
+      '1': $base-margin,
+      '2': $base-margin * 2,
+      '3': $base-margin * 4,
+      '4': $base-margin * 6,
+      '5': $base-margin * 8,
+      '6': $base-margin * 10,
+      'auto': unquote('auto'),
+    ),
+  ),
+  'margin-left': (
+    'prefix': 'ml',
+    'values': (
+      '0': 0,
+      '1': $base-margin,
+      '2': $base-margin * 2,
+      '3': $base-margin * 4,
+      '4': $base-margin * 6,
+      '5': $base-margin * 8,
+      '6': $base-margin * 10,
+    ),
+  ),
+  'margin-right': (
+    'prefix': 'mr',
+    'values': (
+      '0': 0,
+      '1': $base-margin,
+      '2': $base-margin * 2,
+      '3': $base-margin * 4,
+      '4': $base-margin * 6,
+      '5': $base-margin * 8,
+      '6': $base-margin * 10,
+    ),
+  ),
+  'margin-top': (
+    'prefix': 'mt',
+    'values': (
+      '0': 0,
+      '1': $base-margin,
+      '2': $base-margin * 2,
+      '3': $base-margin * 4,
+      '4': $base-margin * 6,
+      '5': $base-margin * 8,
+      '6': $base-margin * 10,
+    ),
+  ),
+  'margin-bottom': (
+    'prefix': 'mb',
+    'values': (
+      '0': 0,
+      '1': $base-margin,
+      '2': $base-margin * 2,
+      '3': $base-margin * 4,
+      '4': $base-margin * 6,
+      '5': $base-margin * 8,
+      '6': $base-margin * 10,
+    ),
+  ),
+  'margin-block': (
+    'prefix': 'my',
+    'values': (
+      '0': 0,
+      '1': $base-margin,
+      '2': $base-margin * 2,
+      '3': $base-margin * 4,
+      '4': $base-margin * 6,
+      '5': $base-margin * 8,
+      '6': $base-margin * 10,
+    ),
+  ),
+  'margin-inline': (
+    'prefix': 'mx',
+    'values': (
+      '0': 0,
+      '1': $base-margin,
+      '2': $base-margin * 2,
+      '3': $base-margin * 4,
+      '4': $base-margin * 6,
+      '5': $base-margin * 8,
+      '6': $base-margin * 10,
+    ),
+  ),
+  'border-radius': (
+    'prefix': 'br',
+    'values': (
+      'default': $border-base-radius,
+      'none': 0,
+      'xs': math.div($border-base-radius, 4),
+      'sm': math.div($border-base-radius, 2),
+      'lg': $border-base-radius * 2,
+      'full': 50%,
+    ),
+  ),
+  'text-align': (
+    'prefix': 'text',
+    'values': (
+      'left': unquote('left'),
+      'right': unquote('right'),
+      'center': unquote('center'),
+    ),
+  ),
+);
+
+@each $property, $map in $utilities {
+  $prefix: map-get($map, 'prefix');
+  $values: map-get($map, 'values');
+  @each $k, $v in $values {
+    @if ($k == 'default') {
+      .#{$prefix} {
+        #{$property}: $v;
+      }
+    } @else {
+      .#{$prefix}-#{$k} {
+        #{$property}: $v;
+      }
+    }
+  }
+}

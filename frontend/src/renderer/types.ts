@@ -28,3 +28,5 @@ type PageContextServer = PageContextBuiltIn<Page> & PageContextCustom;
 type PageContextClient = PageContextBuiltInClient<Page> & PageContextCustom;
 
 type PageContext = PageContextClient | PageContextServer;
+
+let pa: PageContextServer;

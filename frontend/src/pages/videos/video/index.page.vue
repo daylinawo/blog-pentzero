@@ -4,11 +4,11 @@
     <div class="l-grid__content">
       <VideoPlayer :url="result?.findSlug!.data.attributes.url" />
       <div class="wrapper__meta">
-        <PostMeta :meta="blogPostMeta" />
+        <BlogDetailMeta :meta="meta" />
       </div>
       <ClientOnly>
         <div class="wrapper__comments">
-          <DisqusComment />
+          <BlogDetailComment />
         </div>
       </ClientOnly>
     </div>
@@ -31,11 +31,10 @@ import SidebarWidget from '@/components/SidebarWidget.vue';
 import useVideoBySlug from './useVideoBySlug';
 import useVideos from '../useVideos';
 import VideoPlayer from '@/components/VideoPlayer.vue';
-import PostMeta from '@/components/PostMeta.vue';
-import { filterPostsData } from '@/composables/filterPostsData';
+import BlogDetailMeta from '@/components/BlogDetailMeta.vue';
+import { mapToPostInfo } from '@/utils/helpers';
 import { computed } from 'vue';
-import { DisqusCount } from 'vue-disqus';
-import DisqusComment from '@/components/DisqusComment.vue';
+import BlogDetailComment from '@/components/BlogDetailComment.vue';
 
 const pageContext = usePageContext();
 
@@ -43,7 +42,7 @@ const { result, loading, error } = useVideoBySlug({
   slug: pageContext.routeParams!.slug,
 });
 
-const blogPostMeta = computed(() => {
+const meta = computed(() => {
   return {
     publishedAt: new Date(
       result?.value!.findSlug?.data?.attributes.publishedAt
@@ -73,11 +72,11 @@ const {
 
 // get all video posts
 const posts = computed(() => {
-  return filterPostsData(sidebarResults?.value?.videos?.data.slice());
+  return mapToPostInfo(sidebarResults?.value);
 });
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .l-grid {
   display: grid;
   margin-block: 120px;

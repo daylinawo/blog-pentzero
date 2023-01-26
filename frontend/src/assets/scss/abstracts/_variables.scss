@@ -1,0 +1,84 @@
+@use 'sass:math';
+@use 'sass:color';
+
+$colors: (
+  'primary': (
+    base: #eeb781,
+    light: color.scale(#eeb781, $lightness: 15%),
+    dark: color.scale(#eeb781, $lightness: -15%),
+    trans: color.scale(#eeb781, $alpha: -20%),
+  ),
+  'gray': (
+    100: color.scale(#000000, $lightness: 10%),
+    200: color.scale(#000000, $lightness: 20%),
+    300: color.scale(#000000, $lightness: 35%),
+    400: color.scale(#000000, $lightness: 50%),
+    500: color.scale(#000000, $lightness: 65%),
+    600: color.scale(#000000, $lightness: 85%),
+  ),
+);
+
+// breakpoints
+
+/*  576px (mobiles),
+    700px (mobiles),
+    900px (tablets),
+    1440px (small monitors)
+*/
+
+$breakpoints-up: (
+  'xsmall': 0,
+  'small': 30em,
+  'medium': 43.75em,
+  'large': 56.25em,
+  'xlarge': 90em,
+);
+
+$breakpoints-down: (
+  'small': 43.74875em,
+  'medium': 56.24875em,
+  'large': 89.99875em,
+);
+
+$wrapper-sizes: (
+  'small': 42em,
+  'medium': 90em,
+);
+
+// type
+$type-scale: (
+  'minorSecond': 1.067,
+  'majorSecond': 1.125,
+  'minorThird': 1.2,
+  'majorThird': 1.25,
+  'perfectFourth': 1.333,
+  'augmentedFourth': 1.414,
+  'perfectFifth': 1.5,
+  'goldenRatio': 1.618,
+);
+
+$type-base-size: 1rem;
+$type-size-scale: map-get($type-scale, 'minorThird');
+
+$type-level-small: '300', '200', '100';
+$type-level-large: '400', '500', '600', '700', '800';
+
+// spacing
+$base-padding: 0.75em;
+$base-margin: 0.75em;
+
+//borders
+$border-base-thickness: 1px;
+$border-base-radius: 20px;
+
+$max-width: 1440px;
+
+$grid-columns: 12;
+$grid-gaps: (
+  '0': 0,
+  '1': 1rem,
+  '2': 1.5rem,
+  '3': 2rem,
+  '4': 2.5rem,
+  '5': 3rem,
+);

@@ -13,12 +13,12 @@
 </template>
 
 <script setup lang="ts">
-import { PostDetails } from '@/custom-types';
+import { BlogPostInfo } from '@/utils/types';
 import { PropType } from 'vue';
 import SidebarWidgetCard from './SidebarWidgetCard.vue';
 
 const props = defineProps({
-  posts: { type: Array as PropType<PostDetails[]>, required: true },
+  posts: { type: Array as PropType<BlogPostInfo[]>, required: true },
 });
 </script>
 
@@ -30,7 +30,7 @@ const props = defineProps({
   &__title {
     font-size: 0.875em;
     margin-bottom: 0.625rem;
-    text-transform: uppercase;
+    text-transform: uppenprcase;
     letter-spacing: 0.125em;
     color: var(--neutralDark);
     font-weight: 600;

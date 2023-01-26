@@ -18,12 +18,11 @@
 </template>
 <script setup lang="ts">
 import Markdown from 'vue3-markdown-it';
-import { PostMeta } from '@/custom-types';
+import { BlogDetailMeta } from '@/utils/types';
 import { PropType } from 'vue';
-import AppDate from './AppDate.vue';
 
 const props = defineProps({
-  meta: { type: Object as PropType<PostMeta>, required: true },
+  meta: { type: Object as PropType<BlogDetailMeta>, required: true },
 });
 </script>
 

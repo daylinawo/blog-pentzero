@@ -1,0 +1,24 @@
+body {
+  background: var(--color-body);
+}
+
+button {
+  padding: 10px;
+  box-sizing: border-box;
+  background-image: none;
+}
+
+::-webkit-scrollbar {
+  width: 0.5em;
+}
+::-webkit-scrollbar-track {
+  border-radius: 100vw;
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-primary);
+  border-radius: 100vw;
+}
+
+svg {
+  fill: currentColor;
+}

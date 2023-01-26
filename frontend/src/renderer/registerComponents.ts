@@ -1,11 +1,13 @@
 import { App } from 'vue';
 
-import Link from './Link.vue';
+import AppLink from './AppLink.vue';
 import AppDate from '@/components/AppDate.vue';
-import { ClientOnly } from '@/components/ClientOnly';
+import AppIcon from '@/components/AppIcon.vue';
+import { ClientOnly } from '@/utils/clientOnly';
 
 export const registerComponents = (app: App): void => {
-  app.component('Link', Link);
+  app.component('AppLink', AppLink);
   app.component('AppDate', AppDate);
+  app.component('AppIcon', AppIcon);
   app.component('ClientOnly', ClientOnly);
 };

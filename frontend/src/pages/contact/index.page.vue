@@ -19,6 +19,9 @@
 
 <script setup lang="ts"></script>
 <script lang="ts">
+export default {
+  name: 'Contact',
+};
 export const documentProps = {
   title: 'Contact | Pentzero',
   description: 'Luxury lifestyle blog',

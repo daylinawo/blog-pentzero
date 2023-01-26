@@ -1,71 +1,60 @@
 <!-- Videos page -->
-
 <template>
-  <Hero />
   <div class="container">
     <BlogCardList
       v-if="posts"
       :posts="posts"
-      :title="'Videos'"
       :page-number="page"
       :page-total="pageTotal!"
+      :title="$options.name!"
     />
     <p v-if="loading">loading...</p>
   </div>
 </template>
 
+<script lang="ts">
+export default {
+  name: 'videos',
+};
+export const documentProps = { title: 'Videos | Pentzero' };
+export { default as Layout } from '@/layouts/LayoutHome.vue';
+</script>
+
 <script setup lang="ts">
-import { useLazyVideos } from './useVideos';
-import { computed } from '@vue/reactivity';
-import { usePageContext } from '@/renderer/usePageContext';
-import { filterPostsData } from '@/composables/filterPostsData';
-import useHome from '@/composables/UseHome';
-import Hero from '@/components/Hero.vue';
 import BlogCardList from '@/components/BlogCardList.vue';
 
-import { GetVideosDocument, GetVideosQueryVariables } from '@/types.d';
-import { watchEffect, ref } from 'vue';
+import useVideos from './useVideos';
+import { usePageContext } from '@/renderer/usePageContext';
+import { BlogPostInfo } from '@/utils/types';
+import { POSTS_PER_PAGE } from '@/utils/constants';
+import { mapToPostInfo } from '@/utils/helpers';
+
+import { computed } from '@vue/reactivity';
+import { ref, watchEffect } from 'vue';
 
 const pageContext = usePageContext();
 
+const posts = ref<BlogPostInfo[]>();
+
 // current page number
-const page = computed(() => {
-  return parseInt(pageContext.routeParams!.page, 10);
+const page = parseInt(pageContext.routeParams!.page, 10);
+
+const queryVars = ref({
+  limit: POSTS_PER_PAGE,
+  start: (page - 1) * POSTS_PER_PAGE,
+  orderBy: 'publishedAt:desc',
 });
 
-const postsPerPage = ref<number | null>(null);
-const posts = ref(null);
-const videoQueryVars = ref<GetVideosQueryVariables>();
-
-const { result: homeRes, error: homeErr, loading: homeLoading } = useHome();
-const { result, error, loading, load } = useLazyVideos();
+const { result, loading } = useVideos(queryVars.value);
 
 watchEffect(() => {
-  postsPerPage.value = homeRes?.value?.home?.data?.attributes?.PostsPerPage!;
-
-  if (postsPerPage.value) {
-    //update GRAPHQL query vars
-    videoQueryVars.value = {
-      limit: postsPerPage.value,
-      start: (page.value - 1) * postsPerPage.value!,
-      orderBy: 'publishedAt:desc',
-    };
-
-    //load graphql query
-    load(GetVideosDocument, videoQueryVars.value);
-  }
-
-  // get all posts data from database
-  if (result.value)
-    posts.value = filterPostsData(result?.value?.videos?.data.slice());
+  if (result.value) posts.value = mapToPostInfo(result?.value);
 });
 
 // total number of pages for posts
 const pageTotal = computed(() => {
   return result.value?.videos?.meta.pagination.pageCount;
 });
-</script>
 
-<script lang="ts">
-export const documentProps = { title: 'Videos | Pentzero' };
+console.log(posts);
 </script>

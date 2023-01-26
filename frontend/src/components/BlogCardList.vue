@@ -1,40 +1,48 @@
-<!-- List of blog cards -->
-
 <template>
-  <div class="cards__wrap">
-    <BlogCardListNavigation />
-    <div class="cards__header">
-      <h3 class="cards__title">{{ title }}</h3>
-    </div>
-
+  <div id="blog-list">
     <div
-      class="l-grid l-grid--three-md l-grid--four-lg"
-      v-if="posts"
+      :class="$style.header"
+      class="mt-1 mb-2 py-1 col-xs-12"
     >
-      <BlogCard
+      <h3 :class="$style.title">{{ props.title }}</h3>
+    </div>
+    <BlogCardListNavigation class="col-xs-12" />
+
+    <div class="row gx-1 gy-3">
+      <BlogCardListItem
         v-for="post in posts"
         :post="post"
         :key="post.id"
+        class="col-sm-12 col-md-6 col-lg-4 col-xl-3"
+      />
+      <BlogCardListPagination
+        class="col-xs-12"
+        :page-total="pageTotal!"
       />
     </div>
-    <BlogCardListPagination :page-total="pageTotal!" />
   </div>
 </template>
 
+<script lang="ts">
+export default {
+  name: 'BlogCardList',
+};
+</script>
+
 <script setup lang="ts">
-import BlogCard from './BlogCard.vue';
 import { PropType } from 'vue';
-import { PostDetails } from '@/custom-types';
+import { BlogPostInfo } from '@/utils/types';
+import BlogCardListItem from './BlogCardListItem.vue';
 import BlogCardListNavigation from '@/components/BlogCardListNavigation.vue';
 import BlogCardListPagination from '@/components/BlogCardListPagination.vue';
 
 const props = defineProps({
-  posts: {
-    type: Object as PropType<PostDetails[]>,
-    required: true,
-  },
   title: {
     type: String,
+    required: true,
+  },
+  posts: {
+    type: Object as PropType<BlogPostInfo[]>,
     required: true,
   },
   pageNumber: {
@@ -48,54 +56,16 @@ const props = defineProps({
 });
 </script>
 
-<style lang="scss">
-.l-grid {
-  display: grid;
-  gap: 2.75rem;
-  grid-template-columns: 1fr;
-
-  &--three-md {
-    @include breakpoint(medium) {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
-
-  &--three-lg {
-    @include breakpoint(large) {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
-
-  &--four-lg {
-    @include breakpoint(large) {
-      grid-template-columns: repeat(4, 1fr);
-    }
-  }
+<style lang="scss" module>
+.blog-list {
 }
-
-.cards {
-  &__header {
-    margin-top: 3em;
-    margin-bottom: 5em;
-    display: flex;
-    flex-direction: column;
-  }
-
-  &__title {
-    font-size: 4.25rem;
-    text-align: center;
-  }
-
-  &__page-meta {
-    text-align: center;
-    letter-spacing: 4px;
-    font-size: 1.5em;
-    margin-top: 1em;
-  }
-
-  &__page-number {
-    font-weight: 600;
-    font-size: 2rem;
-  }
+.header {
+  display: flex;
+  flex-direction: column;
+  border-block: 1px solid var(--color-border);
+}
+.title {
+  text-transform: uppercase;
+  font-weight: 400;
 }
 </style>

@@ -16,9 +16,13 @@ export default defineConfig({
     preprocessorOptions: {
       scss: {
         additionalData: `
-                @import "./src/assets/styles/_breakpoints.scss";
-                `,
+        @import "@/assets/scss/abstracts/_index.scss";
+                        `,
       },
+    },
+    modules: {
+      localsConvention: 'camelCase',
+      generateScopedName: '[local]_[hash:base64:5]',
     },
   },
 });
