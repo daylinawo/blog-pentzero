@@ -8,7 +8,7 @@
       </div>
       <ClientOnly>
         <div class="wrapper__comments">
-          <BlogDetailComment />
+          <BlogDetailComments />
         </div>
       </ClientOnly>
     </div>
@@ -34,7 +34,7 @@ import VideoPlayer from '@/components/VideoPlayer.vue';
 import BlogDetailMeta from '@/components/BlogDetailMeta.vue';
 import { mapToPostInfo } from '@/utils/helpers';
 import { computed } from 'vue';
-import BlogDetailComment from '@/components/BlogDetailComment.vue';
+import BlogDetailComments from '@/components/BlogDetailComments.vue';
 
 const pageContext = usePageContext();
 
